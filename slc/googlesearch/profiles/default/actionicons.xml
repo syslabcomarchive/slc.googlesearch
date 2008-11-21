@@ -4,5 +4,5 @@
               action_id="SLCGoogleSearch" 
               title="Google Search Settings" 
               priority="0" 
-              icon_expr="site_icon.gif"/> 
+              icon_expr="++resource++google_search_icon.png"/> 
 </action-icons> 
