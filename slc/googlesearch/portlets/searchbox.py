@@ -96,7 +96,7 @@ class AddForm(base.AddForm):
         return Assignment()
 
 
-class EditForm(base.EditForm):
-    form_fields = form.Fields(ICSEPortlet)
-    label = _(u"Edit Google Search Portlet")
-    description = _(u"This portlet shows a search box for the Google CSE.")
+#class EditForm(base.EditForm):
+#    form_fields = form.Fields(ICSEPortlet)
+#    label = _(u"Edit Google Search Portlet")
+#    description = _(u"This portlet shows a search box for the Google CSE.")
