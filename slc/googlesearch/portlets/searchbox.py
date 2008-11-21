@@ -14,7 +14,7 @@ from plone.portlets.interfaces import IPortletDataProvider
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
-
+from slc.googlesearch.interfaces import IGoogleSearchSettings
 
 class ICSEPortlet(IPortletDataProvider):
     pass
@@ -39,6 +39,9 @@ class Renderer(base.Renderer):
         osha_view = getMultiAdapter((context, request), name=u'oshaview')
         self.subsite_url = osha_view.subsiteRootUrl()
         self.subsite_path = osha_view.subsiteRootPath()
+        purl = getToolByName(self.context, 'portal_url')
+        portal = purl.getPortalObject()
+        self.settings = IGoogleSearchSettings(portal)
 
     def _render_cachekey(method, self):
         preflang = getToolByName(self.context, 'portal_languages').getPreferredLanguage()
@@ -53,21 +56,24 @@ class Renderer(base.Renderer):
     def enable_livesearch(self):
         return False
 
-    @memoize
-    def _get_base_url(self):
-        root = self.context.restrictedTraverse(self.subsite_path)
-        if hasattr(aq_base(aq_inner(root)), self.language):
-            return '%s/%s' %(self.subsite_url, self.language)
-        else:
-            return self.subsite_url
+    def getCx(self):
+        return getattr(self.settings, 'cx', '')
 
-    def search_form(self):
-        base_url = self._get_base_url()
-        return '%s/search_form' % base_url
-
-    def search_action(self):
-        base_url = self._get_base_url()
-        return '%s/search' % base_url
+#    @memoize
+#    def _get_base_url(self):
+#        root = self.context.restrictedTraverse(self.subsite_path)
+#        if hasattr(aq_base(aq_inner(root)), self.language):
+#            return '%s/%s' %(self.subsite_url, self.language)
+#        else:
+#            return self.subsite_url
+#
+#    def search_form(self):
+#        base_url = self._get_base_url()
+#        return '%s/search_form' % base_url
+#
+#    def search_action(self):
+#        base_url = self._get_base_url()
+#        return '%s/search' % base_url
 
     def index_alphabetical(self):
         return '%s/%s/@@index_alphabetical' %(self.subsite_url, self.language)
