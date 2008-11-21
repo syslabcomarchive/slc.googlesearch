@@ -4,17 +4,27 @@
     i18n_domain="slc.googlesearch">
 
     <include package="plone.app.contentmenu" />
+    <!--include package="slc.subsite" /-->
 
-  <browser:page 
+  <browser:page
       name="slc-googlesearch-controlpanel" 
       for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
       class=".settings.SLCGoogleSearchControlPanel" 
       permission="cmf.ManagePortal" 
-      /> 
-  <adapter 
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
-      provides="slc.googlesearch.interfaces.IGoogleSearchSettings" 
+      />
+
+  <!-- Adapter for Site root -->
+  <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
       factory=".settings.osha_googlesearch_settings" 
       />
+
+  <!-- Adapter for subiste root -->
+  <!--adapter
+      for="slc.subsite.interfaces.ISubsiteEnhanced"
+      provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
+      factory=".settings.osha_googlesearch_settings"
+      /-->
 
 </configure>
