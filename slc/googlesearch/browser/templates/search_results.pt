@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      lang="en-US"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="osha">
+
+  <metal:block fill-slot="base">
+    <tal:block tal:define="dummy python:request.set('disable_border', 1)" tal:replace="nothing" />
+  </metal:block>
+
+
+<body>
+
+  <div metal:fill-slot="main" i18n:domain="slc.googlesearch">
+
+        <div id="cse-search-results"></div>
+        <script type="text/javascript">
+          var googleSearchIframeName = "cse-search-results";
+          var googleSearchFormName = "cse-search-box";
+          var googleSearchFrameWidth = 300;
+          var googleSearchDomain = "www.google.com";
+          var googleSearchPath = "/cse";
+        </script>
+        <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+
+
+
+  </div>
+</body>
+</html>

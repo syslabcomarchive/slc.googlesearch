@@ -12,6 +12,13 @@
         />
 
   <browser:page
+      name="slc_cse_search_results"
+      for="*"
+      class=".search_results.SearchResultsView"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="slc-googlesearch-controlpanel" 
       for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
       class=".settings.SLCGoogleSearchControlPanel" 
