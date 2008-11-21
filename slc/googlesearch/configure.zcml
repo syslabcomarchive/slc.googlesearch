@@ -13,9 +13,9 @@
     <!-- Register the installation GenericSetup extension profile -->
     <genericsetup:registerProfile
       name="default"
-      title="Google Search"
+      title="Google Custom Search"
       directory="profiles/default"
-      description="Custum Google Search inside Plone"
+      description="Custom Google Search inside Plone"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
