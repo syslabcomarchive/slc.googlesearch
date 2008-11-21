@@ -1,0 +1,20 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="slc.googlesearch">
+
+    <include package="plone.app.contentmenu" />
+
+  <browser:page 
+      name="slc-googlesearch-controlpanel" 
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
+      class=".settings.SLCGoogleSearchControlPanel" 
+      permission="cmf.ManagePortal" 
+      /> 
+  <adapter 
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
+      provides="slc.googlesearch.interfaces.IGoogleSearchSettings" 
+      factory=".settings.osha_googlesearch_settings" 
+      />
+
+</configure>

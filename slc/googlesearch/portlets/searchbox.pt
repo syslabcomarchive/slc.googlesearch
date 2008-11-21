@@ -1,0 +1,48 @@
+<dl class="portlet portletSearch"
+    i18n:domain="osha">
+
+  <dt class="portletHeader">
+      <span class="portletTopLeft"></span>
+      <a class="tile" i18n:domain="osha"
+         tal:attributes="href view/search_form"
+         i18n:translate="Looking for something specific?">Looking for something specific?</a>
+      <span class="portletTopRight"></span>
+  </dt>
+
+    <dd class="portletItem">
+
+<form action="http://www.google.com/cse" id="cse-search-box">
+  <div class="LSBox">
+    <input type="hidden" name="cx" value="002729247433086747365:yustjlrz1nk" />
+    <input type="hidden" name="ie" value="UTF-8" />
+    <input class="searchField inputLabel"
+        type="text" name="q" size="20" />
+    <input type="submit" name="sa" value="Search" />
+  </div>
+</form>
+<script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+
+
+      <div class="visualClear"><!-- --></div>
+
+      <!--div id="additional-search-options">
+        <span tal:omit-tag="" i18n:translate="txt_try_the">Try the:</span><br/>
+        <ul class="linkList"> 
+            <li tal:condition="view/showAtozLink"><a href="#"
+              class="tile"
+              tal:define="preflang here/portal_languages/getPreferredLanguage"
+              tal:attributes="href view/index_alphabetical"
+              i18n:translate="portlet_oshsearch_atoz">
+             Alphabetical Index&hellip;
+            </a></li>
+            <li><a href="#"
+                 class="tile"
+                 tal:attributes="href view/search_form"
+                 i18n:translate="label_advanced_search" i18n:domain="plone">
+                Advanced Search
+                </a></li>
+        </ul>
+      </div-->
+
+    </dd>    
+</dl>

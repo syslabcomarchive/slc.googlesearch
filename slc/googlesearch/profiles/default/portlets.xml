@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<portlets>
+    
+  <portlet
+      addview="slc.GoogleSearchBox"
+      title="Google Search"
+      description="Search box that uses Google CSE" />
+</portlets>
