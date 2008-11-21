@@ -4,6 +4,6 @@
     
   <portlet
       addview="slc.GoogleSearchBox"
-      title="Google Search"
+      title="Google Search Box"
       description="Search box that uses Google CSE" />
 </portlets>
