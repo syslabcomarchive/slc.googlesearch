@@ -59,21 +59,21 @@ class Renderer(base.Renderer):
     def getCx(self):
         return getattr(self.settings, 'cx', '')
 
-#    @memoize
-#    def _get_base_url(self):
-#        root = self.context.restrictedTraverse(self.subsite_path)
-#        if hasattr(aq_base(aq_inner(root)), self.language):
-#            return '%s/%s' %(self.subsite_url, self.language)
-#        else:
-#            return self.subsite_url
+    @memoize
+    def _get_base_url(self):
+        root = self.context.restrictedTraverse(self.subsite_path)
+        if hasattr(aq_base(aq_inner(root)), self.language):
+            return '%s/%s' %(self.subsite_url, self.language)
+        else:
+            return self.subsite_url
 #
 #    def search_form(self):
 #        base_url = self._get_base_url()
 #        return '%s/search_form' % base_url
 #
-#    def search_action(self):
-#        base_url = self._get_base_url()
-#        return '%s/search' % base_url
+    def search_action(self):
+        base_url = self._get_base_url()
+        return '%s/slc_cse_search_results' % base_url
 
     def index_alphabetical(self):
         return '%s/%s/@@index_alphabetical' %(self.subsite_url, self.language)

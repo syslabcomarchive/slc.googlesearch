@@ -11,7 +11,8 @@
     <dd class="portletItem">
 
 
-<form action="slc_cse_search_results" id="cse-search-box">
+<form action="slc_cse_search_results" id="cse-search-box"
+    tal:attributes="action view/search_action">
   <div class="LSBox">
 
     <input type="hidden" name="cx" value="cx"
