@@ -15,8 +15,8 @@
     tal:attributes="action view/search_action">
   <div class="LSBox">
 
-    <input type="hidden" name="cx" value="cx"
-        tal:attributes="value view/getCx" />
+    <input type="hidden" name="cse" value="cse"
+        tal:attributes="value view/getCSE" />
     <input type="hidden" name="cof" value="FORID:9" />
     <input type="hidden" name="ie" value="UTF-8" />
     <input class="searchField inputLabel"

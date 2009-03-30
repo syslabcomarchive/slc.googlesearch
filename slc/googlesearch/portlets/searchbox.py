@@ -2,6 +2,7 @@ from Acquisition import aq_inner, aq_base
 from zope.component import getMultiAdapter
 from zope.formlib import form
 from zope.interface import implements
+from zope import schema
 
 from plone.app.portlets.cache import render_cachekey
 from plone.memoize import ram
@@ -12,15 +13,22 @@ from plone.app.portlets.portlets import base
 from plone.portlets.interfaces import IPortletDataProvider
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFPlone import PloneMessageFactory as _
+from slc.googlesearch import googlesearchMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 from slc.googlesearch.interfaces import IGoogleSearchSettings
 
 class ICSEPortlet(IPortletDataProvider):
-    pass
+    selected_CSE = schema.Choice(title=_(u'Selected CSE'),
+                    description=_('Pick the CSE you want to use for this search box'),
+                    vocabulary="slc.googlesearch.vocabularies.AvailableCSE")
+    
 
 class Assignment(base.Assignment):
     implements(ICSEPortlet)
+
+    def __init__(self, selected_CSE=''):
+        self.selected_CSE = selected_CSE
+
 
     @property
     def title(self):
@@ -49,15 +57,16 @@ class Renderer(base.Renderer):
         subsite_url = osha_view.subsiteRootUrl()
         return (preflang, subsite_url)
         
-    @ram.cache(_render_cachekey)
+    # @ram.cache(_render_cachekey)
     def render(self):
         return xhtml_compress(self._template())
 
     def enable_livesearch(self):
         return False
+        
+    def getCSE(self):
+        return self.data.selected_CSE
 
-    def getCx(self):
-        return getattr(self.settings, 'cx', '')
 
     @memoize
     def _get_base_url(self):
@@ -93,10 +102,10 @@ class AddForm(base.AddForm):
     description = _(u"This portlet shows a search box for the Google CSE.")
 
     def create(self, data):
-        return Assignment()
+        return Assignment(selected_CSE=data.get('selected_CSE', ''))
 
 
-#class EditForm(base.EditForm):
-#    form_fields = form.Fields(ICSEPortlet)
-#    label = _(u"Edit Google Search Portlet")
-#    description = _(u"This portlet shows a search box for the Google CSE.")
+class EditForm(base.EditForm):
+   form_fields = form.Fields(ICSEPortlet)
+   label = _(u"Edit Google Search Portlet")
+   description = _(u"This portlet shows a search box for the Google CSE.")

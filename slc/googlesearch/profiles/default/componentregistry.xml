@@ -3,7 +3,7 @@
  <utilities> 
   <utility 
      interface="slc.googlesearch.interfaces.IGoogleSearchSettings" 
-     factory="slc.googlesearch.adapter.config.GoogleSearchSettings"
+     factory="slc.googlesearch.browser.settings.GoogleSearchSettings"
      /> 
  </utilities> 
 </componentregistry>

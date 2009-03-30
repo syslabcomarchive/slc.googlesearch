@@ -11,6 +11,11 @@
         image="templates/google_search_icon.png"
         />
 
+    <utility
+        component=".settings.AvailableCSEVocabularyFactory"
+        name="slc.googlesearch.vocabularies.AvailableCSE"
+        />
+
   <browser:page
       name="slc_cse_search_results"
       for="*"

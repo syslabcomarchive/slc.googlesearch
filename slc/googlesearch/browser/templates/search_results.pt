@@ -12,16 +12,34 @@
 
   <div metal:fill-slot="main" i18n:domain="slc.googlesearch">
 
-<!--span tal:replace="request/form" /-->
+  <!-- Temporarily defined style here- just for demonstration! -->
+  <style type="text/css">
+    .current_selection {font-weight:bold;}
+    .alternative_selection {font-weigt:normal;}
+  </style>
 
     <h1 class="documentFirstHeading">OSHA search</h1>
 
 
+	<div style="float:right"
+	 tal:define="qs view/getQueryString" >
+	  <span tal:repeat="term view/getCSEVocabulary">
+		<a href="#" 
+		tal:attributes="href string:${here/absolute_url}/${template/getId}?${qs}&cse=${term/value}"><span
+			tal:content="term/title" 
+			tal:attributes="class python:term.value==view.getCSE() and 'current_selection' or 'alternative_selection'"/></a><br />
+      </span>
+	</div>
 
     <form action="slc_cse_search_results" id="cse-search-box">
-      <div>
-        <input type="hidden" name="cx" value="cx"
-            tal:attributes="value view/getCx" />
+      <div tal:define="cx view/getCx;
+    				   cref view/getCref">
+        <input type="hidden" name="cx" value="cx" tal:condition="cx"
+            tal:attributes="value cx" />
+        <input type="hidden" name="cref" value="cref" tal:condition="cref"
+            tal:attributes="value cref" />
+        <input type="hidden" name="cse" value="cref"
+            tal:attributes="value view/getCSE" />
         <input type="hidden" name="cof" value="FORID:9" />
         <input type="hidden" name="ie" value="UTF-8" />
         <input class="searchField inputLabel"
@@ -30,6 +48,8 @@
         <input class="searchButton" type="submit" name="sa" value="Search" />
       </div>
     </form>
+
+
     
     <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
 
