@@ -7,6 +7,9 @@
     <tal:block tal:define="dummy python:request.set('disable_border', 1)" tal:replace="nothing" />
   </metal:block>
 
+    <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
+    <metal:block fill-slot="column_two_slot" />
 
 <body>
 
