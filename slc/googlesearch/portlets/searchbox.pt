@@ -13,10 +13,14 @@
 
 <form action="slc_cse_search_results" id="cse-search-box"
     tal:attributes="action view/search_action">
-  <div class="LSBox">
-
-    <input type="hidden" name="cse" value="cse"
-        tal:attributes="value view/getCSE" />
+  <div class="LSBox" tal:define="cx view/getCx;
+                       cref view/getCref">
+    <input type="hidden" name="cx" value="cx" tal:condition="cx"
+        tal:attributes="value cx" />
+    <input type="hidden" name="cref" value="cref" tal:condition="cref"
+        tal:attributes="value cref" />
+    <!--input type="hidden" name="cse" value="cse"
+        tal:attributes="value view/getCSE" /-->
     <input type="hidden" name="cof" value="FORID:9" />
     <input type="hidden" name="ie" value="UTF-8" />
     <input class="searchField inputLabel"

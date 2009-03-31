@@ -64,9 +64,20 @@ class Renderer(base.Renderer):
     def enable_livesearch(self):
         return False
         
-    def getCSE(self):
-        return self.data.selected_CSE
+    # def getCSE(self):
+    #     return self.data.selected_CSE
 
+    def getCx(self):
+        typus, value = self.data.selected_CSE.split('::')
+        if typus=='cx':
+            return value
+        return ''
+
+    def getCref(self):
+        typus, value = self.data.selected_CSE.split('::')
+        if typus=='cref':
+            return value
+        return ''
 
     @memoize
     def _get_base_url(self):
