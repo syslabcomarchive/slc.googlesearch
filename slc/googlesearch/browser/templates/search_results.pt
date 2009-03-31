@@ -21,25 +21,26 @@
     <h1 class="documentFirstHeading">OSHA search</h1>
 
 
-	<div style="float:right"
-	 tal:define="qs view/getQueryString" >
-	  <span tal:repeat="term view/getCSEVocabulary">
-		<a href="#" 
-		tal:attributes="href string:${here/absolute_url}/${template/getId}?${qs}&cse=${term/value}"><span
-			tal:content="term/title" 
-			tal:attributes="class python:term.value==view.getCSE() and 'current_selection' or 'alternative_selection'"/></a><br />
-      </span>
-	</div>
+
 
     <form action="slc_cse_search_results" id="cse-search-box">
+
+	<div style="float:right"
+	 tal:define="availableCSE view/getAvailableCSE" >
+	  <span tal:repeat="cse availableCSE">
+		<input type="radio" name="cse" value="cse"
+			tal:attributes="value cse/value; checked cse/checked" />
+			<span tal:replace="cse/title" />
+		<br />
+      </span>
+	</div>	
+	
       <div tal:define="cx view/getCx;
     				   cref view/getCref">
         <input type="hidden" name="cx" value="cx" tal:condition="cx"
             tal:attributes="value cx" />
         <input type="hidden" name="cref" value="cref" tal:condition="cref"
             tal:attributes="value cref" />
-        <input type="hidden" name="cse" value="cref"
-            tal:attributes="value view/getCSE" />
         <input type="hidden" name="cof" value="FORID:9" />
         <input type="hidden" name="ie" value="UTF-8" />
         <input class="searchField inputLabel"

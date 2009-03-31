@@ -24,50 +24,65 @@ class SearchResultsView(BrowserView):
             except:
                 # bungled or missing QS
                 pass 
+
+        print "params:", params
+        # if a CSE value is present, invalidate cx and cref, because we are switching source
+        if params.has_key('cse'):
+            cse = params.get('cse')
+            del params['cse']
+            if params.has_key('cx'):
+                del params['cx']
+            if params.has_key('cref'):
+                del params['cref']   
+
+        
+        # if neither cx nor cref are available as parameters
         if 'cx' not in params.keys() and 'cref' not in params.keys():
-            cse = params.get('cse', None)
+            # If there is no CSE value (page called without params),
+            # get the first defined CSE from the vocabulary
             if not cse:
                 vocab = AvailableCSEVocabularyFactory(self)
                 cse = len(vocab._terms) and vocab._terms[0].value or ''
-                qs = "cse=%s" % cse
 
+            # if no CSE is found in the vocabulary, show blank template
             if not cse:
                 self.cse = ''
                 return self.template()
+            
+            qsparts = list()
+            for key, value in params.items():
+                qsparts.append('%s=%s' %(key, value)) 
+            qs = '&'.join(qsparts)
             typus, value = cse.split('::')
-            qs = qs+'&%s=%s' %(typus,value)
+            qs = qs + '&%s=%s' %(typus,value)
             url = "%s/%s?%s" % (self.context.absolute_url(), self.template.getId(), qs)
+            print "redirect to %s" %url
             self.request.RESPONSE.redirect(url)
         
         else:
-            self.cse = self.request.get('cse', '')
+            self.cx = params.get('cx', '')
+            self.cref = params.get('cref', '')
+            
             return self.template()
 
-    def getCSE(self):
-        return self.cse
 
     def getCx(self):
-        typus, value = self.cse.split('::')
-        if typus=='cx':
-            return value
-        return ''
+        return self.cx
 
+ 
     def getCref(self):
-        typus, value = self.cse.split('::')
-        if typus=='url':
-            return value
-        return ''
+        return self.cref
 
-    def getCSEVocabulary(self):
-        return AvailableCSEVocabularyFactory(self)
 
-    def getQueryString(self):
-        qs = self.request.get('QUERY_STRING')
-        parts = qs.split('&')
-        newparts = list()
-        for part in parts:
-            key, val = part.split('=')
-            if key not in ('cse', 'cref', 'cx'):
-                newparts.append(part)
-       
-        return '&'.join(newparts)
+    def getAvailableCSE(self):
+        vocab = AvailableCSEVocabularyFactory(self)
+        cse = list()
+        for term in vocab:
+            typus, realvalue = term.value.split('::')
+            stored_value = getattr(self, typus, '')
+            cse.append(dict(
+                title = term.title,
+                value = term.value,
+                checked = stored_value==realvalue and 'checked' or '')) 
+        return cse
+
