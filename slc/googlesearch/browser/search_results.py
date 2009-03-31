@@ -35,6 +35,8 @@ class SearchResultsView(BrowserView):
                 del params['cx']
             if params.has_key('cref') and not params.get('cref', '')==value:
                 del params['cref']
+        else:
+            cse = ''
         
         # if neither cx nor cref are available as parameters, extract them from cse
         # and redirect with the proper query-string
@@ -47,7 +49,7 @@ class SearchResultsView(BrowserView):
             
             # if no CSE is found in the vocabulary, show blank template
             if not cse:
-                self.cse = ''
+                self.cx = self.cref = ''
                 return self.template()
             qsparts = list()
             for key, value in params.items():
