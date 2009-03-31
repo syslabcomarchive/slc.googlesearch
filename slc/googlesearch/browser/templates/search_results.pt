@@ -26,7 +26,8 @@
     <form action="slc_cse_search_results" id="cse-search-box">
 
 	<div style="float:right"
-	 tal:define="availableCSE view/getAvailableCSE" >
+	 tal:define="availableCSE view/getAvailableCSE" 
+	 tal:condition="python:len(availableCSE)>1">
 	  <span tal:repeat="cse availableCSE">
 		<input type="radio" name="cse" value="cse"
 			tal:attributes="value cse/value; checked cse/checked" />
