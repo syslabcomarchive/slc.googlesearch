@@ -85,3 +85,14 @@ class SearchResultsView(BrowserView):
                 value = term.value,
                 checked = stored_value==realvalue and 'checked' or ''))
         return cse
+
+    def getSelectedCSE(self):
+        vocab = AvailableCSEVocabularyFactory(self)
+        # try cx first
+        val = "cx::%s" % self.getCx()
+        title = vocab.by_value.get(val) and vocab.by_value.get(val).title or ''
+        if not title:
+            val = "cref::%s" % self.getCref()
+            title = vocab.by_value.get(val) and vocab.by_value.get(val).title or ''
+        return title
+        

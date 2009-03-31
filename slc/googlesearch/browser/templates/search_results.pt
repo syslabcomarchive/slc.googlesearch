@@ -48,7 +48,18 @@
       </div>
     </form>
 
+    <div class="visualClear"></div>
+	<br />
 
+    <h1 class="documentFirstHeading">
+        <span i18n:domain="plone" i18n:translate="heading_search_results">
+            Search results
+        </span>
+        <span class="discreet">
+		&mdash;
+		<span tal:replace="view/getSelectedCSE" />
+		</span>
+	</h1>
     
     <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
 
