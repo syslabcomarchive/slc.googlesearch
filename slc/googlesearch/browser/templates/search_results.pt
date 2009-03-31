@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
       lang="en-US"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="osha">
+      i18n:domain="slc.googlesearch">
 
   <metal:block fill-slot="base">
     <tal:block tal:define="dummy python:request.set('disable_border', 1)" tal:replace="nothing" />
@@ -17,9 +17,6 @@
     .current_selection {font-weight:bold;}
     .alternative_selection {font-weigt:normal;}
   </style>
-
-    <h1 class="documentFirstHeading">OSHA search</h1>
-
 
 
 
