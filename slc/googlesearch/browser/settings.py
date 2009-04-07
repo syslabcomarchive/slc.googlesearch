@@ -21,7 +21,7 @@ from slc.googlesearch import googlesearchMessageFactory as _
 
 
 
-def osha_googlesearch_settings(context): 
+def slc_googlesearch_settings(context): 
     return getUtility(IGoogleSearchSettings) 
 
 class StoredCSETuple:

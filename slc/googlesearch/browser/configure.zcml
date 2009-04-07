@@ -41,7 +41,7 @@
   <adapter
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
-      factory=".settings.osha_googlesearch_settings" 
+      factory=".settings.slc_googlesearch_settings" 
       />
 
   <adapter
