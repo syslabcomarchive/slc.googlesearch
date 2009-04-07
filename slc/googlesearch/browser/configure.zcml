@@ -30,6 +30,13 @@
       permission="cmf.ManagePortal" 
       />
 
+  <browser:page
+      name="slc-googlesearch-searchurls" 
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
+      class=".search_urls.SearchUrlsControlPanel" 
+      permission="cmf.ManagePortal" 
+      />
+
   <!-- Adapter for Site root -->
   <adapter
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
@@ -37,11 +44,27 @@
       factory=".settings.osha_googlesearch_settings" 
       />
 
-  <!-- Adapter for subiste root -->
-  <!--adapter
-      for="slc.subsite.interfaces.ISubsiteEnhanced"
-      provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
-      factory=".settings.osha_googlesearch_settings"
-      /-->
+  <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="slc.googlesearch.interfaces.ISearchUrlSettings"
+      factory=".search_urls.search_url_settings" 
+      />
+
+  <!-- Custom widget -->
+  <view
+      type="zope.publisher.interfaces.browser.IBrowserRequest"
+      for=".field.IUIDLine"
+      provides="zope.app.form.interfaces.IInputWidget"
+      factory=".widget.UIDWidget"
+      permission="zope.Public"
+      />
+
+
+  <browser:page
+      for="*"
+      name="add_to_search_urls"
+      class=".search_urls.AddToSearchUrls"
+      permission="zope2.View"
+      />
 
 </configure>
