@@ -44,18 +44,14 @@ class Renderer(base.Renderer):
 
         self.language = getToolByName(self.context, 'portal_languages').getPreferredLanguage()
 
-        osha_view = getMultiAdapter((context, request), name=u'oshaview')
-        self.subsite_url = osha_view.subsiteRootUrl()
-        self.subsite_path = osha_view.subsiteRootPath()
         purl = getToolByName(self.context, 'portal_url')
         portal = purl.getPortalObject()
+        self.portal_path = '/'.join(portal.getPhysicalPath())
         self.settings = IGoogleSearchSettings(portal)
 
     def _render_cachekey(method, self):
         preflang = getToolByName(self.context, 'portal_languages').getPreferredLanguage()
-        osha_view = getMultiAdapter((self.context, self.context.request), name=u'oshaview')
-        subsite_url = osha_view.subsiteRootUrl()
-        return (preflang, subsite_url)
+        return (preflang)
         
     # @ram.cache(_render_cachekey)
     def render(self):
@@ -81,30 +77,17 @@ class Renderer(base.Renderer):
 
     @memoize
     def _get_base_url(self):
-        root = self.context.restrictedTraverse(self.subsite_path)
+        root = self.context.restrictedTraverse(self.portal_path)
         if hasattr(aq_base(aq_inner(root)), self.language):
-            return '%s/%s' %(self.subsite_url, self.language)
+            return '%s/%s' %(self.portal_path, self.language)
         else:
-            return self.subsite_url
-#
-#    def search_form(self):
-#        base_url = self._get_base_url()
-#        return '%s/search_form' % base_url
-#
+            return self.portal_path
+
+
     def search_action(self):
         base_url = self._get_base_url()
         return '%s/slc_cse_search_results' % base_url
 
-    def index_alphabetical(self):
-        return '%s/%s/@@index_alphabetical' %(self.subsite_url, self.language)
-
-
-    def showAtozLink(self):
-        osha_view = getMultiAdapter((self.context, self.request), name=u'oshaview')
-        show = osha_view.get_subsite_property('show_atoz_link')
-        if show is None:
-            show = True
-        return show
 
 
 class AddForm(base.AddForm):

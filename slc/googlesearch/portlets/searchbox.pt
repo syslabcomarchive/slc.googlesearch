@@ -1,5 +1,5 @@
 <dl class="portlet portletSearch"
-    i18n:domain="osha">
+    i18n:domain="slc.googlesearch">
 
   <dt class="portletHeader">
       <span class="portletTopLeft"></span>
@@ -32,20 +32,6 @@
 <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
 
       <div class="visualClear"><!-- --></div>
-
-      <div id="additional-search-options" tal:condition="view/showAtozLink">
-        <span tal:omit-tag="" i18n:translate="txt_try_the">Try the:</span><br/>
-        <ul class="linkList"> 
-            <li tal:condition="view/showAtozLink"><a href="#"
-              class="tile"
-              tal:define="preflang here/portal_languages/getPreferredLanguage"
-              tal:attributes="href view/index_alphabetical"
-              i18n:translate="portlet_oshsearch_atoz">
-             Alphabetical Index&hellip;
-            </a></li>
-
-        </ul>
-      </div>
 
     </dd>
 </dl>
