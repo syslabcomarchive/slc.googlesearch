@@ -8,12 +8,4 @@
                  visible="True"> 
   <permission>Manage portal</permission> 
  </configlet> 
- <configlet title="Google Search URLs"
-                action_id="SLCGoogleSearchURLs"
-                appId="SLCGoogleSearchURLs"
-                category="Products" condition_expr="" 
- url_expr="string:${portal_url}/@@slc-googlesearch-searchurls" 
-                 visible="True"> 
-  <permission>Manage portal</permission> 
- </configlet>
 </object> 

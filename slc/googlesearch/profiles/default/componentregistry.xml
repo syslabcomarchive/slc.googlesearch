@@ -5,10 +5,6 @@
      interface="slc.googlesearch.interfaces.IGoogleSearchSettings" 
      factory="slc.googlesearch.browser.settings.GoogleSearchSettings"
      /> 
-  <utility 
-     interface="slc.googlesearch.interfaces.ISearchUrlSettings" 
-     factory="slc.googlesearch.browser.search_urls.SearchUrlSettings"
-     /> 
  </utilities> 
 </componentregistry>
 

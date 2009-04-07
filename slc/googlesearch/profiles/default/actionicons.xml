@@ -5,9 +5,4 @@
               title="Google Search Settings" 
               priority="0" 
               icon_expr="++resource++google_search_icon.png"/> 
- <action-icon category="controlpanel" 
-              action_id="SLCGoogleSearchURLs" 
-              title="Google Search URL Settings" 
-              priority="0" 
-              icon_expr="++resource++google_search_icon.png"/> 
 </action-icons> 
