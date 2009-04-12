@@ -11,6 +11,7 @@ from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser import ObjectWidget
 from zope.app.form.browser import ListSequenceWidget
 from persistent import Persistent
+from zope.annotation.interfaces import IAnnotations
 
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
@@ -19,6 +20,7 @@ from zope.app.component.hooks import getSite
 
 from slc.googlesearch import googlesearchMessageFactory as _
 
+SETTING_KEY="slc.googlesearch.settings"
 
 
 def slc_googlesearch_settings(context): 
@@ -65,17 +67,22 @@ AvailableCSEVocabularyFactory = AvailableCSEVocabulary()
 
 
 
+class Settings(Persistent):
+    """Settings for a site/subsite
+    """
+    stored_list = list()
+    linked_list = list()
+
+
 class GoogleSearchSettings(Persistent):
     implements(IGoogleSearchSettings)
 
-    stored_list = list()
-    linked_list = list()
     
 
     @apply
     def stored_settings():
         def get(self):
-            return [StoredCSETuple(l,t) for (l,t) in self.stored_list]
+            return [StoredCSETuple(l,t) for (l,t) in self.settings.stored_list]
         def set(self, value):
             tuples = []
             for ta in value:
@@ -83,13 +90,13 @@ class GoogleSearchSettings(Persistent):
                 cx = ta.cx
                 tuples.append((label,cx))
 
-            self.stored_list = tuples
+            self.settings.stored_list = tuples
         return property(get, set)
 
     @apply
     def linked_settings():
         def get(self):
-            return [LinkedCSETuple(l,t) for (l,t) in self.linked_list]
+            return [LinkedCSETuple(l,t) for (l,t) in self.settings.linked_list]
         def set(self, value):
             tuples = []
             for ta in value:
@@ -97,8 +104,14 @@ class GoogleSearchSettings(Persistent):
                 url = ta.url
                 tuples.append((label,url))
 
-            self.linked_list = tuples
+            self.settings.linked_list = tuples
         return property(get, set)
+
+    @property
+    def settings(self):
+        site = getSite()
+        ann = IAnnotations(site)
+        return ann.setdefault(SETTING_KEY, Settings())
 
 
 stored_set = FormFieldsets(IStoredCSESchema)
