@@ -71,14 +71,6 @@ class GoogleSearchSettings(Persistent):
     stored_list = list()
     linked_list = list()
     
-    stored_set = FormFieldsets(IStoredCSESchema)
-    stored_set.id = 'stored'
-    stored_set.label = _(u'Stored CSE')
-    
-    linked_set = FormFieldsets(ILinkedCSESchema)
-    linked_set.id = 'linked'
-    linked_set.label = _(u'Linked CSE')
-
 
     @apply
     def stored_settings():
@@ -109,7 +101,13 @@ class GoogleSearchSettings(Persistent):
         return property(get, set)
 
 
+stored_set = FormFieldsets(IStoredCSESchema)
+stored_set.id = 'stored'
+stored_set.label = _(u'Stored CSE')
 
+linked_set = FormFieldsets(ILinkedCSESchema)
+linked_set.id = 'linked'
+linked_set.label = _(u'Linked CSE')
 
 stored_settings_widget = CustomWidgetFactory(ObjectWidget, StoredCSETuple)
 stored_widget = CustomWidgetFactory(ListSequenceWidget,
@@ -122,8 +120,7 @@ linked_widget = CustomWidgetFactory(ListSequenceWidget,
 
 class SLCGoogleSearchControlPanel(ControlPanelForm): 
 
-    # form_fields = FormFieldsets(stored_set, linked_set)
-    form_fields = form.FormFields(IGoogleSearchSettings)
+    form_fields = FormFieldsets(stored_set, linked_set)
     form_fields['stored_settings'].custom_widget = stored_widget
     form_fields['linked_settings'].custom_widget = linked_widget
         
