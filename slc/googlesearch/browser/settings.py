@@ -54,12 +54,12 @@ class AvailableCSEVocabulary(object):
         
         items = []
         # prefix value with the type of CSE
-        for label, cx in GSS.stored_list:
-            value = "cx::%s" %(cx)          
-            items.append(SimpleTerm(value, value, label))
-        for label, url in GSS.linked_list:
-            value = "cref::%s" %(url)
-            items.append(SimpleTerm(value, value, label))
+        for setting in GSS.stored_settings:
+            value = "cx::%s" %(setting.cx)          
+            items.append(SimpleTerm(value, value, setting.label))
+        for setting in GSS.linked_settings:
+            value = "cref::%s" %(setting.url)
+            items.append(SimpleTerm(value, value, setting.label))
             
         return SimpleVocabulary(items)
 
