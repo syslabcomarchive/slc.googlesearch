@@ -47,7 +47,6 @@ class Renderer(base.Renderer):
         purl = getToolByName(self.context, 'portal_url')
         portal = purl.getPortalObject()
         self.portal_path = '/'.join(portal.getPhysicalPath())
-        self.settings = IGoogleSearchSettings(portal)
 
     def _render_cachekey(method, self):
         preflang = getToolByName(self.context, 'portal_languages').getPreferredLanguage()
