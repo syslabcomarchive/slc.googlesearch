@@ -78,9 +78,9 @@ class Renderer(base.Renderer):
     def _get_base_url(self):
         root = self.context.restrictedTraverse(self.portal_path)
         if hasattr(aq_base(aq_inner(root)), self.language):
-            return '%s/%s' %(self.portal_path, self.language)
+            return '%s/%s' %(root.absolute_url(), self.language)
         else:
-            return self.portal_path
+            return root.absolute_url()
 
 
     def search_action(self):
