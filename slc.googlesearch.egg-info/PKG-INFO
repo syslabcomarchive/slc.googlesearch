@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: slc.googlesearch
-Version: 1.0dev
+Version: 1.0dev-r1627
 Summary: Custum Google Search inside Plone
 Home-page: http://svn.plone.org/svn/plone/plone.example
 Author: Syslab.com
@@ -30,10 +30,21 @@ Description: .. contents::
         Changelog
         =========
         
-        1.0 (xxxx-xx-xx)
+        0.4 (unreleased)
+        -----------------
+        
+        - Switched to AnnotationStorage. The configuration is annotated on the portal object.
+        
+        0.3 beta (unreleased)
         ------------------
         
-        - Created recipe with ZopeSkel [Syslab.com].
+        - Now possible to define more than one CSE. Stored and Linked CSEs are possible;
+        input: label and cx (stored) or URL to cref (linked).
+        
+        - In the edit form of the search portlet, the desired CSE can be selected.
+        
+        - The results page uses the CSE passed via GET from the portlet. Via links it is
+        possible to also use the other available CSEs.
         
         Detailed Documentation
         **********************

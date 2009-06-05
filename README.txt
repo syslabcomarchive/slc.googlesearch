@@ -2,16 +2,15 @@
 
 .. Note!
    -----
-   Update the following URLs to point to your:
-
+   
    - code repository
    - bug tracker
    - questions/comments feedback mail
-   (do not set a real mail, to avoid spams)
 
-   Or remove it if not used.
 
-- Code repository: http://svn.somewhere.com/...
-- Questions and comments to somemailing_list
-- Report bugs at http://bug.somewhere.com/..
+- Code repository: https://svn.syslab.com/svn/syslabcom/slc.googlesearch
+- Questions and comments to info (at) syslab (dot) com
+- Report bugs at http://products.syslab.com/products/slc.googlesearch/issues
+
+
 

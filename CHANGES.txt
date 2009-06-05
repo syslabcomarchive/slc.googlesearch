@@ -1,13 +1,20 @@
-Changelog
-=========
+slc.googlesearch Changelog
+==========================
+
+slc.googlesearch 1.1 (2009-05-12)
+---------------------------------
+
+- Packaged egg (pilz)
+
 
 0.4 (unreleased)
------------------
+----------------
 
  - Switched to AnnotationStorage. The configuration is annotated on the portal object.
 
-0.3 beta (unreleased)
-------------------
+
+slc.googlesearch 0.3 ()
+-----------------------
 
  - Now possible to define more than one CSE. Stored and Linked CSEs are possible;
    input: label and cx (stored) or URL to cref (linked).
@@ -16,3 +23,10 @@ Changelog
 
  - The results page uses the CSE passed via GET from the portlet. Via links it is 
    possible to also use the other available CSEs.
+
+
+
+slc.googlesearch 1.0 (2008-03-31)
+---------------------------------
+
+- Initial port
