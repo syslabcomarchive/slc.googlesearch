@@ -22,6 +22,10 @@
   </style>
 
 
+  	<span tal:define="intro view/getIntroDocument" tal:condition="intro">
+		<h1 class="documentFirstHeading" tal:content="intro/Title"></h1>
+		<div tal:content="structure intro/getText"></div>
+	</span>
 
     <form action="slc_cse_search_results" id="cse-search-box">
 
