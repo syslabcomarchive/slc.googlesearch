@@ -56,6 +56,77 @@ And we ensure that we get the friendly logged-in message:
 
 
 
-Basic tests
------------
+Adding basic settings
+---------------------
+	
+We navigate to the Googlesearch controlpanel.
 
+	>>> browser.getLink('Site Setup').click()
+	>>> browser.getLink('Google Custom Search').click()
+	>>> "Google CSE settings" in browser.contents
+	True
+	
+There are no CSE settings yet.
+
+	>>> "CSE parameters" in browser.contents
+	False
+	
+Therefore we add some:
+
+	>>> browser.getControl('Add Stored CSE settings').click()
+	>>> browser.getControl(name="form.stored_settings.0.label").value = "My custom search"
+	>>> browser.getControl(name="form.stored_settings.0.cx").value = "012345"
+	>>> browser.getControl('Save').click()
+	>>> "Changes saved" in browser.contents	
+	True
+	
+The parameters are present in the form.
+
+	>>> "My custom search" in browser.contents
+	True
+
+Now we add linked settings:
+
+	>>> browser.getControl('Add Linked CSE settings').click()
+	>>> browser.getControl(name="form.linked_settings.0.label").value = "My linked search2"
+	>>> browser.getControl(name="form.linked_settings.0.url").value = "http://nohost/googleCSE"
+	>>> browser.getControl('Save').click()	
+	>>> "Changes saved" in browser.contents
+	True
+
+And they are also present in the form now.
+
+	>>> "My linked search" in browser.contents
+	True
+
+And the stored CSE is still there.
+
+	>>> "My custom search" in browser.contents
+	True
+
+Adding the portlet
+-------------------
+
+Now let's go back to the homepage and add a Googlesearch portlet.
+
+	>>> browser.getLink('Home').click()
+	>>> browser.getLink('Manage portlets').click()
+	>>> browser.open('/'.join(browser.url.split('/')[:-1] + ['++contextportlets++plone.leftcolumn', '+', 'slc.GoogleSearchBox']))
+	>>> "Add Google Search Portlet" in browser.contents
+	True
+
+The drop-down for the selected CSE must contain our 2 previously defined CSEs.
+
+	>>> 'cx::012345' in browser.getControl(name='form.selected_CSE').options	
+	True
+	
+	>>> 'cref::http://nohost/googleCSE' in browser.getControl(name='form.selected_CSE').options
+	True
+
+And so we add the portlet.
+
+	>>> browser.getControl(name='form.selected_CSE').value = ['cx::012345']
+	>>> browser.getControl('Save').click()
+	>>> "Google Searchbox" in browser.contents
+	True
+	
