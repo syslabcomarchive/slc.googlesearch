@@ -1,5 +1,8 @@
-Introduction
-============
+SLC Googlesearch
+================
+
+Boilerplate
+-----------
 
 This is a full-blown functional test. The emphasis here is on testing what
 the user may input and see, and the system is largely tested as a black box.
@@ -52,5 +55,7 @@ And we ensure that we get the friendly logged-in message:
     True
 
 
--*- extra stuff goes here -*-
+
+Basic tests
+-----------
 
