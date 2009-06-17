@@ -1,6 +1,15 @@
 slc.googlesearch Changelog
 ==========================
 
+slc.googlesearch 1.2 (2009-06-17)
+---------------------------------
+
+- fixed test setup (gerken)
+
+- wrote simple doctest (thomasw)
+
+- added possibility to define an intro text on the search page (thomasw)
+
 slc.googlesearch 1.1 (2009-05-12)
 ---------------------------------
 
