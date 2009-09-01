@@ -50,7 +50,21 @@ class ILinkedCSESchema(Interface):
                         required=False)
 
 
-class IGoogleSearchSettings(IStoredCSESchema, ILinkedCSESchema):
+class IAdditionalParametersTuple(Interface):
+    additional_query = schema.ASCIILine(title=_(u'Additional query'),
+                        description=_(u'Parameters that will be aded automatically to a query'),
+                        default='',
+                        required=True)
+
+
+class IAdditionalParametersSchema(Interface):
+    additional_settings = schema.List(title=_(u"Additional parameters"),
+                        description=_(u"Additional parameters for the query"),
+                        default=[],
+                        value_type=schema.Object(IAdditionalParametersTuple, title=u"Additional parameters"),
+                        required=False)
+
+class IGoogleSearchSettings(IStoredCSESchema, ILinkedCSESchema, IAdditionalParametersSchema):
     """Combined schema for the adapter lookup.
     """
 

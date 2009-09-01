@@ -5,7 +5,7 @@ from zope.formlib import form
 from plone.fieldsets.fieldsets import FormFieldsets
 from plone.app.controlpanel.form import ControlPanelForm
 from slc.googlesearch.interfaces import IGoogleSearchSettings
-from slc.googlesearch.interfaces import IStoredCSESchema, ILinkedCSESchema, IStoredCSETuple, ILinkedCSETuple
+from slc.googlesearch.interfaces import IStoredCSESchema, ILinkedCSESchema, IStoredCSETuple, ILinkedCSETuple, IAdditionalParametersTuple, IAdditionalParametersSchema
 from Products.CMFDefault.formlib.schema import SchemaAdapterBase
 from zope.app.form import CustomWidgetFactory
 from zope.app.form.browser import ObjectWidget
@@ -41,6 +41,11 @@ class LinkedCSETuple:
         self.label = label
         self.url = url
 
+class AdditionalParametersTuple:
+    implements(IAdditionalParametersTuple)
+
+    def __init__(self, additional_query=''):
+        self.additional_query = additional_query
 
 
 class AvailableCSEVocabulary(object):
@@ -73,6 +78,7 @@ class Settings(Persistent):
     """
     stored_list = list()
     linked_list = list()
+    additionals_list = list()
 
 
 class GoogleSearchSettings(Persistent):
@@ -83,6 +89,7 @@ class GoogleSearchSettings(Persistent):
     # which cannot be used for IAnnotation...
     stored_list = list()
     linked_list = list()
+    additionals_list = list()
     
     @apply
     def stored_settings():
@@ -113,7 +120,20 @@ class GoogleSearchSettings(Persistent):
             self.settings.linked_list = tuples
             self.linked_list = tuples
         return property(get, set)
-    
+
+    @apply
+    def additional_settings():
+        def get(self):
+            return [AdditionalParametersTuple(q,) for (q,) in self.settings.additionals_list]
+        def set(self, value):
+            tuples = []
+            for ta in value:
+                additional_query = ta.additional_query
+                tuples.append((additional_query,))
+            self.settings.additionals_list = tuples
+            self.additionals_list = tuples
+        return property(get, set)
+   
     @property
     def settings(self):
         site = getSite()
@@ -122,6 +142,7 @@ class GoogleSearchSettings(Persistent):
             dummy = Settings()
             dummy.stored_list = self.stored_list
             dummy.linked_list = self.linked_list
+            dummy.additionals_list = self.additionals_list
             return dummy
         ann = IAnnotations(site)
         return ann.setdefault(SETTING_KEY, Settings())
@@ -135,6 +156,10 @@ linked_set = FormFieldsets(ILinkedCSESchema)
 linked_set.id = 'linked'
 linked_set.label = _(u'Linked CSE')
 
+additional_set = FormFieldsets(IAdditionalParametersSchema)
+additional_set.id = 'additional'
+additional_set.label = 'Additional parameters'
+
 stored_settings_widget = CustomWidgetFactory(ObjectWidget, StoredCSETuple)
 stored_widget = CustomWidgetFactory(ListSequenceWidget,
                                            subwidget=stored_settings_widget)
@@ -143,12 +168,17 @@ linked_settings_widget = CustomWidgetFactory(ObjectWidget, LinkedCSETuple)
 linked_widget = CustomWidgetFactory(ListSequenceWidget,
                                            subwidget=linked_settings_widget)
 
+additional_parameters_widget = CustomWidgetFactory(ObjectWidget, AdditionalParametersTuple)
+additional_widget = CustomWidgetFactory(ListSequenceWidget,
+                                           subwidget=additional_parameters_widget)
+
 
 class SLCGoogleSearchControlPanel(ControlPanelForm):
     
-    form_fields = FormFieldsets(stored_set, linked_set)
+    form_fields = FormFieldsets(stored_set, linked_set, additional_set)
     form_fields['stored_settings'].custom_widget = stored_widget
     form_fields['linked_settings'].custom_widget = linked_widget
+    form_fields['additional_settings'].custom_widget = additional_widget
 
     
     form_name = _(u"Google CSE settings")
