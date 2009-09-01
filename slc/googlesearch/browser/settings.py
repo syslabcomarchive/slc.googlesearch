@@ -72,6 +72,23 @@ class AvailableCSEVocabulary(object):
 AvailableCSEVocabularyFactory = AvailableCSEVocabulary()
 
 
+class AvailableAdditionalsVocabulary(object):
+    """ Vocabulary factory returning available additional parameters
+    """
+    implements(IVocabularyFactory)
+    
+    def __call__(self, context):
+        site = getSite()
+        GSS = getUtility(IGoogleSearchSettings)
+        
+        items = list()
+        for param in GSS.additional_settings:
+            value = param.additional_query
+            items.append(SimpleTerm(value, value))
+
+        return SimpleVocabulary(items)
+
+AvailableAdditionalsVocabularyFactory = AvailableAdditionalsVocabulary()
 
 class Settings(Persistent):
     """Settings for a site/subsite

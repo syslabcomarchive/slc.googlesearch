@@ -16,6 +16,11 @@
         name="slc.googlesearch.vocabularies.AvailableCSE"
         />
 
+    <utility
+	    component=".settings.AvailableAdditionalsVocabularyFactory"
+	    name="slc.googlesearch.vocabularies.AvailableAdditionals"
+	    />
+
   <browser:page
       name="slc_cse_search_results"
       for="*"

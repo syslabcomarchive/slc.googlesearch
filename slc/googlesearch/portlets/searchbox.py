@@ -19,15 +19,22 @@ from slc.googlesearch.interfaces import IGoogleSearchSettings
 
 class ICSEPortlet(IPortletDataProvider):
     selected_CSE = schema.Choice(title=_(u'Selected CSE'),
-                    description=_('Pick the CSE you want to use for this search box'),
+                    description=_(u'Pick the CSE you want to use for this search box'),
                     vocabulary="slc.googlesearch.vocabularies.AvailableCSE")
-    
+
+    selected_additionals = schema.Choice(title=u'Additional query parameters',
+                             description=_(u'Pick additional parameters that will be appended to te query (optional)'),
+                             vocabulary="slc.googlesearch.vocabularies.AvailableAdditionals",
+                             required=False,
+                             default=[])
+
 
 class Assignment(base.Assignment):
     implements(ICSEPortlet)
 
-    def __init__(self, selected_CSE=''):
+    def __init__(self, selected_CSE='', selected_additionals=''):
         self.selected_CSE = selected_CSE
+        self.selected_additionals = selected_additionals
 
 
     @property
@@ -74,6 +81,9 @@ class Renderer(base.Renderer):
             return value
         return ''
 
+    def getAdditional(self):
+        return self.data.selected_additionals
+
     @memoize
     def _get_base_url(self):
         root = self.context.restrictedTraverse(self.portal_path)
@@ -95,7 +105,7 @@ class AddForm(base.AddForm):
     description = _(u"This portlet shows a search box for the Google CSE.")
 
     def create(self, data):
-        return Assignment(selected_CSE=data.get('selected_CSE', ''))
+        return Assignment(selected_CSE=data.get('selected_CSE', ''), selected_additionals=data.get('selected_additionals', ''))
 
 
 class EditForm(base.EditForm):

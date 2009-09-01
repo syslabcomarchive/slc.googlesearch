@@ -33,7 +33,7 @@ class SearchResultsView(BrowserView):
             except:
                 # bungled or missing QS
                 pass
-        
+                
         # if a CSE value is present, invalidate cx and cref, because we are switching source;
         # but only if the cse value differs from the current selection
         if params.has_key('cse'):
@@ -66,6 +66,14 @@ class SearchResultsView(BrowserView):
             qs = '&'.join(qsparts)
             typus, value = cse.split('::')
             qs = qs + '&%s=%s' %(typus,value)
+            url = "%s/%s?%s" % (self.context.absolute_url(), self.template.getId(), qs)
+            self.request.RESPONSE.redirect(url)
+
+        # if there are additional parameters, add them to the query string and redirect
+        elif params.get('additional_params', ''):
+            params['q'] = "%s %s" %(params.get('q', ''),  params.get('additional_params'))
+            del params['additional_params']
+            qs = "&".join(['%s=%s'%(key,val) for key,val in params.items()])
             url = "%s/%s?%s" % (self.context.absolute_url(), self.template.getId(), qs)
             self.request.RESPONSE.redirect(url)
         

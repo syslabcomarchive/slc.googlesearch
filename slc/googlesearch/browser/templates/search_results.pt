@@ -48,7 +48,6 @@
 		<br />
       </span>
 	</div>	
-	
       <div tal:define="cx view/getCx;
     				   cref view/getCref">
         <input type="hidden" name="cx" value="cx" tal:condition="cx"
