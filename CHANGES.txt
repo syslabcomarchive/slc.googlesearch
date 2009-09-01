@@ -1,6 +1,14 @@
 slc.googlesearch Changelog
 ==========================
 
+slc.googlesearch 1.2.1 (2009-09-01)
+-----------------------------------
+
+- Added possibility to define additional params in the control panel. If 
+  some are defined, they can be selected in the portlel. 
+  Those params will then be added to the query (thomasw)
+
+
 slc.googlesearch 1.2 (2009-06-17)
 ---------------------------------
 
