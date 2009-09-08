@@ -82,6 +82,8 @@ class Renderer(base.Renderer):
         return ''
 
     def getAdditional(self):
+        if not self.data:
+            return ''
         return self.data.selected_additionals
 
     @memoize
