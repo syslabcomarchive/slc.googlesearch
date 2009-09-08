@@ -82,7 +82,7 @@ class Renderer(base.Renderer):
         return ''
 
     def getAdditional(self):
-        if not self.data:
+        if not hasattr(self.data, selected_additionals):
             return ''
         return self.data.selected_additionals
 
