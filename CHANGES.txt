@@ -4,6 +4,7 @@ slc.googlesearch Changelog
 slc.googlesearch 1.2.2 (unreleased)
 -----------------------------------
 
+- Added EUPL license (deroiste)
 - fixed error when selected_additionals is not present (pilz)
 
 slc.googlesearch 1.2.1 (2009-09-01)
