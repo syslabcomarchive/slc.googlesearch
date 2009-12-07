@@ -79,9 +79,12 @@ class Renderer(base.Renderer):
         return ''
 
     def getCref(self):
-        typus, value = self.data.selected_CSE.split('::')
-        if typus=='cref':
-            return value
+        try:
+            typus, value = self.data.selected_CSE.split('::')
+            if typus=='cref':
+                return value
+        except ValueError:
+            pass
         return ''
 
     def getAdditional(self):
