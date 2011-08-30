@@ -1,0 +1,61 @@
+slc.googlesearch Changelog
+==========================
+
+1.2.3 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
+1.2.2 (2009-12-10)
+------------------
+
+- Added EUPL license (deroiste)
+- fixed error when selected_additionals is not present (pilz)
+
+slc.googlesearch 1.2.1 (2009-09-01)
+-----------------------------------
+
+- Added possibility to define additional params in the control panel. If 
+  some are defined, they can be selected in the portlel. 
+  Those params will then be added to the query (thomasw)
+
+
+slc.googlesearch 1.2 (2009-06-17)
+---------------------------------
+
+- fixed test setup (gerken)
+
+- wrote simple doctest (thomasw)
+
+- added possibility to define an intro text on the search page (thomasw)
+
+slc.googlesearch 1.1 (2009-05-12)
+---------------------------------
+
+- Packaged egg (pilz)
+
+
+0.4 (unreleased)
+----------------
+
+ - Switched to AnnotationStorage. The configuration is annotated on the portal object.
+
+
+slc.googlesearch 0.3 ()
+-----------------------
+
+ - Now possible to define more than one CSE. Stored and Linked CSEs are possible;
+   input: label and cx (stored) or URL to cref (linked).
+
+ - In the edit form of the search portlet, the desired CSE can be selected.
+
+ - The results page uses the CSE passed via GET from the portlet. Via links it is 
+   possible to also use the other available CSEs.
+
+
+
+slc.googlesearch 1.0 (2008-03-31)
+---------------------------------
+
+- Initial port

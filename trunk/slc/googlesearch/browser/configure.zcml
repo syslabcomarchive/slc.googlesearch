@@ -1,0 +1,50 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="slc.googlesearch">
+
+    <include package="plone.app.contentmenu" />
+    <!--include package="slc.subsite" /-->
+
+    <browser:resource
+        name="google_search_icon.png"
+        image="templates/google_search_icon.png"
+        />
+
+    <utility
+        component=".settings.AvailableCSEVocabularyFactory"
+        name="slc.googlesearch.vocabularies.AvailableCSE"
+        />
+
+    <utility
+	    component=".settings.AvailableAdditionalsVocabularyFactory"
+	    name="slc.googlesearch.vocabularies.AvailableAdditionals"
+	    />
+
+  <browser:page
+      name="slc_cse_search_results"
+      for="*"
+      class=".search_results.SearchResultsView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="slc-googlesearch-controlpanel" 
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
+      class=".settings.SLCGoogleSearchControlPanel" 
+      permission="cmf.ManagePortal" 
+      />
+
+
+
+  <!-- Adapter for Site root -->
+  <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
+      factory=".settings.slc_googlesearch_settings" 
+      />
+
+
+
+
+</configure>
