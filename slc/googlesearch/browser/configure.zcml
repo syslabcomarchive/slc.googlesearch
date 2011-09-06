@@ -25,6 +25,7 @@
       name="slc_cse_search_results"
       for="*"
       class=".search_results.SearchResultsView"
+      template="templates/search_results.pt"
       permission="zope2.View"
       />
 

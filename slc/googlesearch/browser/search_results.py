@@ -1,5 +1,4 @@
 from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
 from slc.googlesearch.interfaces import IGoogleSearchSettings
 from slc.googlesearch.browser.settings import AvailableCSEVocabularyFactory
@@ -12,10 +11,7 @@ from plone.memoize.instance import memoize
 class SearchResultsView(BrowserView):
     """View for displaying Google CSE Search results
     """
-    template = ViewPageTemplateFile('templates/search_results.pt')
-    template.id = "slc_cse_search_results"
-    
-    
+
     def __call__(self):
         self.language = getToolByName(self.context, 'portal_languages').getPreferredLanguage()
 
@@ -59,14 +55,14 @@ class SearchResultsView(BrowserView):
             # if no CSE is found in the vocabulary, show blank template
             if not cse:
                 self.cx = self.cref = ''
-                return self.template()
+                return self.index()
             qsparts = list()
             for key, value in params.items():
                 qsparts.append('%s=%s' %(key, value))
             qs = '&'.join(qsparts)
             typus, value = cse.split('::')
             qs = qs + '&%s=%s' %(typus,value)
-            url = "%s/%s?%s" % (self.context.absolute_url(), self.template.getId(), qs)
+            url = "%s/%s?%s" % (self.context.absolute_url(), self.__name__, qs)
             self.request.RESPONSE.redirect(url)
 
         # if there are additional parameters, add them to the query string and redirect
@@ -74,14 +70,14 @@ class SearchResultsView(BrowserView):
             params['q'] = "%s %s" %(params.get('q', ''),  params.get('additional_params'))
             del params['additional_params']
             qs = "&".join(['%s=%s'%(key,val) for key,val in params.items()])
-            url = "%s/%s?%s" % (self.context.absolute_url(), self.template.getId(), qs)
+            url = "%s/%s?%s" % (self.context.absolute_url(), self.__name__, qs)
             self.request.RESPONSE.redirect(url)
         
         # we have a valid query-string; save cx and cref values, and display template
         else:
             self.cx = params.get('cx', '')
             self.cref = params.get('cref', '')
-            return self.template()
+            return self.index()
 
     @memoize
     def _get_base(self):
