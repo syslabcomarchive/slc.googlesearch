@@ -65,6 +65,5 @@ setup(name='slc.googlesearch',
       entry_points="""
       # -*- entry_points -*- 
       """,
-      paster_plugins = ["ZopeSkel"],
       )      
       
