@@ -1,10 +1,11 @@
 slc.googlesearch Changelog
 ==========================
 
-1.2.3 (unreleased)
+1.2.3 (2011-09-30)
 ------------------
 
-- Nothing changed yet.
+- Use https for all URLs pointing to google. Otherwise this tool cannot be
+  used on sites running in https [thomasw]
 
 
 1.2.2 (2009-12-10)
