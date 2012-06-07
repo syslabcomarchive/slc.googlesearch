@@ -1,41 +1,32 @@
-from Products.Five import zcml
-from Products.Five import fiveconfigure
+from plone.app.testing import FunctionalTesting
+from plone.app.testing import IntegrationTesting
+from plone.app.testing import PLONE_FIXTURE
+from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import applyProfile
+from plone.testing import z2
 
-from Testing import ZopeTestCase as ztc
 
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup
-from Products.PloneTestCase import layer
+class SLCGoogleSearch(PloneSandboxLayer):
 
-SiteLayer = layer.PloneSite
+    defaultBases = (PLONE_FIXTURE,)
 
-class SLCSGooglesearchLayer(SiteLayer):
-    @classmethod
-    def setUp(cls):
-        """Set up additional products and ZCML required to test this product.
-        """
-        ztc.installPackage('slc.googlesearch')
-        ptc.setupPloneSite(products=['slc.googlesearch'])
-
-        # Load the ZCML configuration for this package and its dependencies
-
-        fiveconfigure.debug_mode = True
+    def setUpZope(self, app, configurationContext):
         import slc.googlesearch
-        zcml.load_config('configure.zcml', slc.googlesearch)
-        fiveconfigure.debug_mode = False
+        self.loadZCML('configure.zcml', package=slc.googlesearch)
 
-        
-        SiteLayer.setUp()
+        z2.installProduct(app, 'slc.googlesearch')
 
-# The order here is important: We first call the deferred function and then 
-# let PloneTestCase install it during Plone site setup
+    def setUpPloneSite(self, portal):
+        applyProfile(portal, 'slc.googlesearch:default')
 
-class TestCase(ptc.PloneTestCase):
-    """Base class used for test cases
-    """
-    layer = SLCSGooglesearchLayer
+    def tearDownZope(self, app):
+        z2.uninstallProduct(app, 'slc.googlesearch')
 
-class FunctionalTestCase(ptc.FunctionalTestCase):
-    """Test case class used for functional (doc-)tests
-    """
-    layer = SLCSGooglesearchLayer
+
+SLCGOOGLESEARCH_FIXTURE = SLCGoogleSearch()
+INTEGRATION_TESTING = IntegrationTesting(
+    bases=(SLCGOOGLESEARCH_FIXTURE,),
+    name="SLCGoogleSearch:Integration")
+FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(SLCGOOGLESEARCH_FIXTURE,),
+    name="SLCGoogleSearch:Functional")
