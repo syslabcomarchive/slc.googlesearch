@@ -36,32 +36,32 @@
 
 
 
-    <form action="slc_cse_search_results" id="cse-search-box">
-
-	<div style="float:right"
-	 tal:define="availableCSE view/getAvailableCSE" 
-	 tal:condition="python:len(availableCSE)>1">
-	  <span tal:repeat="cse availableCSE">
-		<input type="radio" name="cse" value="cse"
-			tal:attributes="value cse/value; checked cse/checked" />
-			<span tal:replace="cse/title" />
-		<br />
-      </span>
-	</div>	
-      <div tal:define="cx view/getCx;
-    				   cref view/getCref">
+  <form action="slc_cse_search_results">
+    <div tal:define="cx view/getCx;
+    				 cref view/getCref">
+      <div  id="cse-search-box">
         <input type="hidden" name="cx" value="cx" tal:condition="cx"
-            tal:attributes="value cx" />
+               tal:attributes="value cx" />
         <input type="hidden" name="cref" value="cref" tal:condition="cref"
-            tal:attributes="value cref" />
+               tal:attributes="value cref" />
         <input type="hidden" name="cof" value="FORID:11" />
         <input type="hidden" name="ie" value="UTF-8" />
         <input class="searchField inputLabel"
-            type="text" name="q" size="50"
-            tal:attributes="value request/q|string:" />
+               type="text" name="q" size="50"
+               tal:attributes="value request/q|string:" />
         <input class="searchButton" type="submit" name="sa" value="Search" />
       </div>
-    </form>
+
+      <div tal:define="availableCSE view/getAvailableCSE" 
+	       tal:condition="python:len(availableCSE)>1">
+	    <tal:available_cse repeat="cse availableCSE">
+		  <input type="radio" name="cse" value="cse"
+			     tal:attributes="value cse/value; checked cse/checked" />
+		  <span tal:replace="cse/title" />
+        </tal:available_cse>
+      </div>
+    </div>
+  </form>
 
     <div class="visualClear"></div>
 	<br />
