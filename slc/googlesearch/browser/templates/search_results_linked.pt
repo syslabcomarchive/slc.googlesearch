@@ -52,10 +52,6 @@
         orderByOptions['keys'] = [{label: 'Relevance', key: ''},{label: 'Date', key: 'date'}];
         customSearchOptions['enableOrderBy'] = true;
         customSearchOptions['orderByOptions'] = orderByOptions;
-        var imageSearchOptions = {};
-        imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
-        customSearchOptions['enableImageSearch'] = true;
-        customSearchOptions['imageSearchOptions'] = imageSearchOptions;
         var customSearchControl = new google.search.CustomSearchControl({'crefUrl' : cref_value},
             customSearchOptions);
         customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
