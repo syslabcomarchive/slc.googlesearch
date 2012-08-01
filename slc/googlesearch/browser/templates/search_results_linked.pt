@@ -54,7 +54,7 @@
 
     </span>
 
-    <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
+    <script type="text/javascript" src="https://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
 
     <div id="cse-search-results"></div>
     <script type="text/javascript">
@@ -64,7 +64,7 @@
         var googleSearchDomain = "www.google.com";
         var googleSearchPath = "/cse";
     </script>
-    <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script>
+    <script type="text/javascript" src="https://www.google.com/afsonline/show_afs_search.js"></script>
 
 
 
