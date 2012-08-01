@@ -17,32 +17,39 @@
         />
 
     <utility
-	    component=".settings.AvailableAdditionalsVocabularyFactory"
-	    name="slc.googlesearch.vocabularies.AvailableAdditionals"
-	    />
+        component=".settings.AvailableAdditionalsVocabularyFactory"
+        name="slc.googlesearch.vocabularies.AvailableAdditionals"
+    />
 
+  <!-- Legacy view for the iframe based display -->
   <browser:page
       name="slc_cse_search_results"
       for="*"
-      class=".search_results.SearchResultsView"
-      template="templates/search_results.pt"
+      class=".search_results.SearchResultsLinkedView"
+      template="templates/search_results_linked.pt"
       permission="zope2.View"
       />
 
   <browser:page
-      name="slc-googlesearch-controlpanel" 
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot" 
-      class=".settings.SLCGoogleSearchControlPanel" 
-      permission="cmf.ManagePortal" 
+      name="site_search"
+      for="*"
+      class=".search_results.SearchResultsSEView"
+      template="templates/search_results_se.pt"
+      permission="zope2.View"
       />
 
-
+  <browser:page
+      name="slc-googlesearch-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".settings.SLCGoogleSearchControlPanel"
+      permission="cmf.ManagePortal"
+      />
 
   <!-- Adapter for Site root -->
   <adapter
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       provides="slc.googlesearch.interfaces.IGoogleSearchSettings"
-      factory=".settings.slc_googlesearch_settings" 
+      factory=".settings.slc_googlesearch_settings"
       />
 
 

@@ -7,7 +7,7 @@ from slc.googlesearch.config import RESULTS_INTRO_PAGE_NAME
 from urllib import unquote
 
 
-class SearchResultsView(BrowserView):
+class SearchResultsLinkedView(BrowserView):
     """View for displaying Google CSE Search results"""
 
     def __call__(self):
@@ -17,71 +17,17 @@ class SearchResultsView(BrowserView):
         purl = getToolByName(self.context, 'portal_url')
         portal = purl.getPortalObject()
         self.portal_path = '/'.join(portal.getPhysicalPath())
+        self.cx = self.cref = ''
 
-        qs = unquote(self.request.get('QUERY_STRING'))
-        parts = qs.split('&')
-        params = dict()
-        for part in parts:
-            try:
-                key, val = part.split('=')
-                params[key] = val
-            except:
-                # bungled or missing QS
-                pass
+        vocab = AvailableCSEVocabularyFactory(self)
+        for term in vocab._terms:
+            typus, value = term.value.split('::')
+            if typus == 'cx':
+                self.cx = value
+            elif typus == 'cref':
+                self.cref = value
 
-        # if a CSE value is present, invalidate cx and cref, because we are
-        # switching source;
-        # but only if the cse value differs from the current selection
-        if 'cse' in params:
-            cse = params.get('cse')
-            del params['cse']
-            typus, value = cse.split('::')
-            if 'cx' in params and not params.get('cx', '') == value:
-                del params['cx']
-            if 'cref' in params and not params.get('cref', '') == value:
-                del params['cref']
-        else:
-            cse = ''
-
-        # if neither cx nor cref are available as parameters, extract them
-        # from cse and redirect with the proper query-string
-        if 'cx' not in params.keys() and 'cref' not in params.keys():
-            # If there is no CSE value (page called without params),
-            # get the first defined CSE from the vocabulary of CSEs
-            if not cse:
-                vocab = AvailableCSEVocabularyFactory(self)
-                cse = len(vocab._terms) and vocab._terms[0].value or ''
-
-            # if no CSE is found in the vocabulary, show blank template
-            if not cse:
-                self.cx = self.cref = ''
-                return self.index()
-            qsparts = list()
-            for key, value in params.items():
-                qsparts.append('%s=%s' % (key, value))
-            qs = '&'.join(qsparts)
-            typus, value = cse.split('::')
-            qs = qs + '&%s=%s' % (typus, value)
-            url = "%s/%s?%s" % (self.context.absolute_url(), self.__name__, qs)
-            self.request.RESPONSE.redirect(url)
-
-        # if there are additional parameters, add them to the query string and
-        # redirect
-        elif params.get('additional_params', ''):
-            params['q'] = "%s %s" % (params.get('q', ''),
-                                     params.get('additional_params'))
-            del params['additional_params']
-            qs = "&".join(['%s=%s' % (key, val)
-                           for key, val in params.items()])
-            url = "%s/%s?%s" % (self.context.absolute_url(), self.__name__, qs)
-            self.request.RESPONSE.redirect(url)
-
-        # we have a valid query-string; save cx and cref values, and display
-        # template
-        else:
-            self.cx = params.get('cx', '')
-            self.cref = params.get('cref', '')
-            return self.index()
+        return self.index()
 
     @memoize
     def _get_base(self):
@@ -97,25 +43,14 @@ class SearchResultsView(BrowserView):
     def getCref(self):
         return self.cref
 
-    def getAvailableCSE(self):
-        vocab = AvailableCSEVocabularyFactory(self)
-        cse = list()
-        for term in vocab:
-            typus, realvalue = term.value.split('::')
-            stored_value = getattr(self, typus, '')
-            cse.append(dict(
-                title=term.title,
-                value=term.value,
-                checked=stored_value == realvalue and 'checked' or ''))
-        return cse
 
     def getSelectedCSE(self):
         vocab = AvailableCSEVocabularyFactory(self)
-        # try cx first
-        val = "cx::%s" % self.getCx()
+        # try cref first
+        val = "cref::%s" % self.getCref()
         title = vocab.by_value.get(val) and vocab.by_value.get(val).title or ''
         if not title:
-            val = "cref::%s" % self.getCref()
+            val = "cx::%s" % self.getCx()
             title = (vocab.by_value.get(val) and vocab.by_value.get(val).title
                      or '')
         return title
@@ -129,3 +64,17 @@ class SearchResultsView(BrowserView):
             return intro
 
         return None
+
+
+class SearchResultsSEView(SearchResultsLinkedView):
+
+    def getSelectedCSE(self):
+        vocab = AvailableCSEVocabularyFactory(self)
+        # try cx first
+        val = "cx::%s" % self.getCx()
+        title = vocab.by_value.get(val) and vocab.by_value.get(val).title or ''
+        if not title:
+            val = "cref::%s" % self.getCref()
+            title = (vocab.by_value.get(val) and vocab.by_value.get(val).title
+                     or '')
+        return title
