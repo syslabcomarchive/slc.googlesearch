@@ -43,6 +43,8 @@ class SearchResultsLinkedView(BrowserView):
     def getCref(self):
         return self.cref
 
+    def getLanguage(self):
+        return self.language
 
     def getSelectedCSE(self):
         vocab = AvailableCSEVocabularyFactory(self)

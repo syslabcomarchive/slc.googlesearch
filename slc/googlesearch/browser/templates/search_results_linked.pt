@@ -16,27 +16,14 @@
 
 <body>
 
-  <div metal:fill-slot="main" i18n:domain="slc.googlesearch">
+  <div metal:fill-slot="main" i18n:domain="slc.googlesearch"
+        tal:define="cref view/getCref;
+        language view/getLanguage">
 
-
-  <form action="slc_cse_search_results">
-    <div tal:define="cref view/getCref">
-      <div  id="cse-search-box">
-        <input type="hidden" name="cref" value="cref" tal:condition="cref"
-               tal:attributes="value cref" />
-        <input type="hidden" name="cof" value="FORID:11" />
-        <input type="hidden" name="ie" value="UTF-8" />
-        <input class="searchField inputLabel"
-               type="text" name="q" size="50"
-               tal:attributes="value request/q|string:" />
-        <input class="searchButton" type="submit" name="sa" value="Search" />
-      </div>
-
-    </div>
-  </form>
-
-    <div class="visualClear"></div>
-	<br />
+    <span id="cse_settings">
+        <span id="cref_value" tal:attributes="cref_value cref"></span>
+        <span id="language_value" tal:attributes="language_value language"></span>
+    </span>
 
     <h1 class="documentFirstHeading">
         <span i18n:domain="plone" i18n:translate="heading_search_results">
@@ -49,24 +36,34 @@
     </h1>
 
       <span tal:define="intro view/getIntroDocument" tal:condition="intro">
-
         <span class="portletItem" tal:replace="structure intro/getText"></span>
-
     </span>
 
-    <script type="text/javascript" src="https://www.google.com/coop/cse/brand?form=cse-search-box&lang=en"></script>
 
-    <div id="cse-search-results"></div>
+    <div id="cse" style="width:100%;">Loading...</div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        var googleSearchIframeName = "cse-search-results";
-        var googleSearchFormName = "cse-search-box";
-        var googleSearchFrameWidth = 600;
-        var googleSearchDomain = "www.google.com";
-        var googleSearchPath = "/cse";
+    var cref_value = jQuery('#cse_settings #cref_value').attr('cref_value');
+    var language_value = jQuery('#cse_settings #language_value').attr('language_value');
+    google.load('search', '1', {language : language_value, style : google.loader.themes.SHINY});
+    google.setOnLoadCallback(function() {
+        var customSearchOptions = {};
+        var orderByOptions = {};
+        orderByOptions['keys'] = [{label: 'Relevance', key: ''},{label: 'Date', key: 'date'}];
+        customSearchOptions['enableOrderBy'] = true;
+        customSearchOptions['orderByOptions'] = orderByOptions;
+        var imageSearchOptions = {};
+        imageSearchOptions['layout'] = google.search.ImageSearch.LAYOUT_POPUP;
+        customSearchOptions['enableImageSearch'] = true;
+        customSearchOptions['imageSearchOptions'] = imageSearchOptions;
+        var customSearchControl = new google.search.CustomSearchControl({'crefUrl' : cref_value},
+            customSearchOptions);
+        customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+        var options = new google.search.DrawOptions();
+        options.setAutoComplete(true);
+        customSearchControl.draw('cse', options);
+        }, true);
     </script>
-    <script type="text/javascript" src="https://www.google.com/afsonline/show_afs_search.js"></script>
-
-
 
   </div>
 </body>
