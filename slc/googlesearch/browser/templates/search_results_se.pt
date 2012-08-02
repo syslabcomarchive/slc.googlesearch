@@ -15,7 +15,9 @@
 
 <body>
 
-  <div metal:fill-slot="main" i18n:domain="slc.googlesearch">
+  <div metal:fill-slot="main" i18n:domain="slc.googlesearch"
+        tal:define="cx view/getCx;
+        language view/getLanguage">
 
     <h1 class="documentFirstHeading">
         <span i18n:domain="plone" i18n:translate="heading_search_results">
@@ -26,10 +28,17 @@
         </span>
     </h1>
 
+    <span id="cse_settings">
+        <span id="cx_value" tal:attributes="cx_value cx"></span>
+        <span id="language_value" tal:attributes="language_value language"></span>
+    </span>
+
     <div id="cse" style="width: 100%;">Loading</div>
     <script src="http://www.google.com/jsapi" type="text/javascript"></script>
     <script type="text/javascript">
-    google.load('search', '1', {language : 'en', style : google.loader.themes.V2_DEFAULT});
+    var cx_value = jQuery('#cse_settings #cx_value').attr('cx_value');
+    var language_value = jQuery('#cse_settings #language_value').attr('language_value');
+    google.load('search', '1', {language : language_value, style : google.loader.themes.V2_DEFAULT});
     google.setOnLoadCallback(function() {
         var customSearchOptions = {};
         var orderByOptions = {};
@@ -44,8 +53,7 @@
         googleAnalyticsOptions['queryParameter'] = 'q';
         googleAnalyticsOptions['categoryParameter'] = '';
         customSearchOptions['googleAnalyticsOptions'] = googleAnalyticsOptions;
-        var customSearchControl = new google.search.CustomSearchControl(
-        '002729247433086747365:c1c8w5hnuam', customSearchOptions);
+        var customSearchControl = new google.search.CustomSearchControl(cx_value, customSearchOptions);
         customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
         var options = new google.search.DrawOptions();
         options.setAutoComplete(true);
