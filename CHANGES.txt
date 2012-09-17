@@ -1,11 +1,10 @@
 slc.googlesearch Changelog
 ==========================
 
-1.2.3 (unreleased)
+1.2.3 (2012-09-17)
 ------------------
 
-- Nothing changed yet.
-
+- Plone 4
 
 1.2.2 (2009-12-10)
 ------------------
