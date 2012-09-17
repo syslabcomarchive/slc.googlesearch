@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US"
+      lang="en-US"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="slc.googlesearch">
+
+  <metal:block fill-slot="base">
+    <tal:block tal:define="dummy python:request.set('disable_border', 1)" tal:replace="nothing" />
+  </metal:block>
+
+    <metal:block fill-slot="top_slot"
+                 tal:define="dummy python:request.set('disable_border',1)" />
+    <metal:block fill-slot="column_two_slot" >
+
+
+    </metal:block>
+
+<body>
+
+  <div metal:fill-slot="main" i18n:domain="slc.googlesearch"
+        tal:define="cref view/getCref;
+        language view/getLanguage">
+
+    <span id="cse_settings">
+        <span id="cref_value" tal:attributes="cref_value cref"></span>
+        <span id="language_value" tal:attributes="language_value language"></span>
+    </span>
+
+    <h1 class="documentFirstHeading">
+        <span i18n:domain="plone" i18n:translate="heading_search_results">
+            Search results
+        </span>
+        <span class="discreet">
+         &mdash;
+        <span tal:replace="view/getSelectedCSE" />
+        </span>
+    </h1>
+
+      <span tal:define="intro view/getIntroDocument" tal:condition="intro">
+        <span class="portletItem" tal:replace="structure intro/getText"></span>
+    </span>
+
+
+    <div id="cse" style="width:100%;">Loading...</div>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    var cref_value = jQuery('#cse_settings #cref_value').attr('cref_value');
+    var language_value = jQuery('#cse_settings #language_value').attr('language_value');
+    google.load('search', '1', {language : language_value, style : google.loader.themes.SHINY});
+    google.setOnLoadCallback(function() {
+        var customSearchOptions = {};
+        var orderByOptions = {};
+        orderByOptions['keys'] = [{label: 'Relevance', key: ''},{label: 'Date', key: 'date'}];
+        customSearchOptions['enableOrderBy'] = true;
+        customSearchOptions['orderByOptions'] = orderByOptions;
+        var customSearchControl = new google.search.CustomSearchControl({'crefUrl' : cref_value},
+            customSearchOptions);
+        customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+        var options = new google.search.DrawOptions();
+        options.setAutoComplete(true);
+        customSearchControl.draw('cse', options);
+        }, true);
+    </script>
+
+  </div>
+</body>
+</html>

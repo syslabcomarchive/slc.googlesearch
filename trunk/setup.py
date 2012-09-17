@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-version = '1.2.3'
+version = '1.2.3dev'
 
 long_description = (
     read('README.txt')
@@ -27,8 +27,10 @@ long_description = (
     '************\n'
     + '\n' +
     read('CONTRIBUTORS.txt')
-    + '\n'
+    + '\n' 
     )
+    
+tests_require=['zope.testing']
 
 setup(name='slc.googlesearch',
       version=version,
@@ -54,16 +56,15 @@ setup(name='slc.googlesearch',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'setuptools',
+          'setuptools',    
           # -*- Extra requirements: -*-
       ],
-      extras_require={
-          'test': [
-              'plone.app.testing',
-              'mock',
-          ],
-      },
+      tests_require=tests_require,
+      extras_require=dict(tests=tests_require),
+      test_suite = 'slc.googlesearch.tests.test_docs.test_suite',
       entry_points="""
-      # -*- entry_points -*-
+      # -*- entry_points -*- 
       """,
-      )
+      paster_plugins = ["ZopeSkel"],
+      )      
+      
