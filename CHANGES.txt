@@ -1,11 +1,11 @@
 slc.googlesearch Changelog
 ==========================
 
-1.2.4 (unreleased)
+1.2.4 (2012-11-26)
 ------------------
 
-- Nothing changed yet.
-
+- Make it also possible for the linked search results page to pass in query
+  parameters via ?q=my+search+params #6177 [thomasw]
 
 1.2.3 (2012-09-17)
 ------------------
